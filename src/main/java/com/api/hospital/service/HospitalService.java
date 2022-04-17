@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Hospital;
+import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveHospitalRequest;
 import com.api.hospital.model.response.GetHospitalByNameResponse;
 import com.api.hospital.repository.AddressRepository;
@@ -28,17 +29,17 @@ public class HospitalService {
         hospital.setName(request.getName());
         hospital.setAvailableBeds(request.getAvailableBeds());
         hospital.setTotalBeds(request.getTotalBeds());
-        hospital.setCpnj(request.getCpnj());
+        hospital.setCnpj(request.getCnpj());
         hospitalRepository.save(hospital);
     }
 
     public GetHospitalByNameResponse findHospitalByName(String name) {
-        Hospital hospital= findByName(name);
+        Hospital hospital= this.findByName(name);
         return GetHospitalByNameResponse.builder()
                 .id(hospital.getId())
                 .name(hospital.getName())
                 .availableBeds(hospital.getAvailableBeds())
-                .cpnj(hospital.getCpnj())
+                .cnpj(hospital.getCnpj())
                 .totalBeds(hospital.getTotalBeds())
                 .cep(hospital.getAddress().getCep())
                 .city(hospital.getAddress().getCity())
@@ -46,6 +47,13 @@ public class HospitalService {
                 .street(hospital.getAddress().getStreet())
                 .state(hospital.getAddress().getState())
                 .build();
+    }
+
+    //todo: validar retorno
+    public void changeNumberAvailableBeds(PutHospitalRequest request) {
+        Hospital hospital = this.findByCnpj(request.getCnpj());
+        hospital.setAvailableBeds(hospital.getAvailableBeds() - request.getBedsOccupation());
+        hospitalRepository.save(hospital);
     }
 
     private Address saveAddress(SaveHospitalRequest request) {
@@ -62,6 +70,11 @@ public class HospitalService {
     //todo: melhorar quando a entidade não for encontrada
     private Hospital findByName(String name) {
         Optional<Hospital> hospital = hospitalRepository.findByName(name);
+        return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
+    }
+
+    private Hospital findByCnpj(String cnpj) {
+        Optional<Hospital> hospital = hospitalRepository.findByCnpj(cnpj);
         return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
 }

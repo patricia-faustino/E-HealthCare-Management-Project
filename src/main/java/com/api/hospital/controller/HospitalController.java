@@ -1,5 +1,6 @@
 package com.api.hospital.controller;
 
+import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveHospitalRequest;
 import com.api.hospital.model.response.GetHospitalByNameResponse;
 import com.api.hospital.service.HospitalService;
@@ -25,5 +26,11 @@ public class HospitalController {
     @GetMapping("/{name}")
     public ResponseEntity<GetHospitalByNameResponse> getHospitalByName(@PathVariable String name) {
         return ResponseEntity.ok(service.findHospitalByName(name));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> changeNumberAvailableBeds(@RequestBody @Valid PutHospitalRequest request) {
+        service.changeNumberAvailableBeds(request);
+        return ResponseEntity.ok().build();
     }
 }
