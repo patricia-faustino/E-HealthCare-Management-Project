@@ -55,6 +55,10 @@ public class HospitalService {
         hospitalRepository.save(hospital);
     }
 
+    public void delete(String cpnj) {
+        hospitalRepository.delete(this.findByCnpj(cpnj));
+    }
+
     private Address saveAddress(SaveHospitalRequest request) {
         Address address = new Address();
         address.setCep(request.getCep());
@@ -66,7 +70,7 @@ public class HospitalService {
         return address;
     }
 
-    //todo: melhorar quando a entidade não for encontrada
+    //todo: melhorar excecao quando a entidade não for encontrada
     private Hospital findByName(String name) {
         Optional<Hospital> hospital = hospitalRepository.findByName(name);
         return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
