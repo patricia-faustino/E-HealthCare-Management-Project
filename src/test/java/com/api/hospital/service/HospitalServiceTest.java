@@ -6,17 +6,23 @@ import com.api.hospital.helper.HospitalHelper;
 import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.SaveHospitalRequest;
+import com.api.hospital.model.response.GetHospitalByNameResponse;
 import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.HospitalRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HospitalServiceTest {
@@ -30,22 +36,42 @@ public class HospitalServiceTest {
     @Mock
     private AddressRepository addressRepository;
 
-    private SaveHospitalRequest saveHospitalRequest;
-    private Address address;
     private Hospital hospital;
+    private final String name = "Hospital Test";
+
+    @Captor
+    private ArgumentCaptor<Hospital> hospitalCaptor;
 
     @Before
     public void before() {
-        saveHospitalRequest = HospitalHelper.buildSaveHospitalRequest();
-        address = AddressHelper.buildAddress();
         hospital = HospitalHelper.buildHospital();
     }
 
     @Test
-    public void saveHospital() {
-        hospitalService.saveHospital(saveHospitalRequest);
+    public void findHospitalByNameShouldReturnGetHospitalByNameResponseWhenHospitalFound() {
+        when(hospitalRepository.findByName(name)).thenReturn(Optional.of(hospital));
 
-        verify(addressRepository, times(1)).save(address);
-        verify(hospitalRepository, times(1)).save(hospital);
+        GetHospitalByNameResponse response = hospitalService.findHospitalByName(name);
+
+        verify(hospitalRepository, times( 1)).findByName(name);
+        assertEquals(response.getId(), hospital.getId());
+        assertEquals(response.getAvailableBeds(), hospital.getAvailableBeds());
+        assertEquals(response.getTotalBeds(), hospital.getTotalBeds());
+        assertEquals(response.getName(), hospital.getName());
+        assertEquals(response.getCpnj(), hospital.getCpnj());
+        assertEquals(response.getCep(), hospital.getAddress().getCep());
+        assertEquals(response.getDistrict(), hospital.getAddress().getDistrict());
+        assertEquals(response.getCity(), hospital.getAddress().getCity());
+        assertEquals(response.getState(), hospital.getAddress().getState());
+        assertEquals(response.getStreet(), hospital.getAddress().getStreet());
+    }
+
+    @Test
+    public void findHospitalByNameShouldReturnRunTimeExceptionWhenHospitalNotFound() {
+        when(hospitalRepository.findByName(name)).thenReturn(Optional.empty());
+
+        assertThrows( RuntimeException.class,
+                () -> hospitalService.findHospitalByName(name),
+                "Entity not found!") ;
     }
 }

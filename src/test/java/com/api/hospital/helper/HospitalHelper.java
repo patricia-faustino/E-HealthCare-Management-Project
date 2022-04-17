@@ -21,6 +21,7 @@ public class HospitalHelper {
 
     public static Hospital buildHospital() {
         return Hospital.builder()
+                .id(1L)
                 .name("Hospital Test")
                 .cpnj("85.086.201/0001-06")
                 .totalBeds(100L)
