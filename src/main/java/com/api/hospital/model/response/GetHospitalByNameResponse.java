@@ -13,7 +13,7 @@ public class GetHospitalByNameResponse {
 
     private String name;
 
-    private String cpnj;
+    private String cnpj;
 
     private Long totalBeds;
 

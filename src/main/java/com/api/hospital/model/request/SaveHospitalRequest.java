@@ -21,7 +21,7 @@ public class SaveHospitalRequest {
     private String name;
 
     @NotBlank
-    private String cpnj;
+    private String cnpj;
 
     @NotNull
     private Long totalBeds;

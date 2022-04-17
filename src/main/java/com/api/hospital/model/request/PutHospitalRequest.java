@@ -7,14 +7,18 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetHospitalByNameRequest {
+public class PutHospitalRequest {
 
     @NotBlank
-    private String name;
+    private String cnpj;
+
+    @NotNull
+    private Long bedsOccupation;
 }

@@ -25,7 +25,7 @@ public class Hospital extends BaseAudit {
     private String name;
 
     @Column(name = "Cnpj")
-    private String cpnj;
+    private String cnpj;
 
     @ManyToOne
     @JoinColumn(name = "IdAddress")
