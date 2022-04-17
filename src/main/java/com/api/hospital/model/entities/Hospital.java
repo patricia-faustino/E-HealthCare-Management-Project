@@ -1,6 +1,5 @@
 package com.api.hospital.model.entities;
 
-import com.api.hospital.model.enums.SPECIALTY;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +24,8 @@ public class Hospital extends BaseAudit {
     @Column(name = "Name")
     private String name;
 
-    @Column(name = "Crm")
-    private String crm;
-
-    @Column(name = "Specialty")
-    private SPECIALTY specialty;
+    @Column(name = "Cnpj")
+    private String cpnj;
 
     @ManyToOne
     @JoinColumn(name = "IdAddress")
