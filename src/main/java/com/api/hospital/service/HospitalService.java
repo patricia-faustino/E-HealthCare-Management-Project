@@ -49,7 +49,6 @@ public class HospitalService {
                 .build();
     }
 
-    //todo: validar retorno
     public void changeNumberAvailableBeds(PutHospitalRequest request) {
         Hospital hospital = this.findByCnpj(request.getCnpj());
         hospital.setAvailableBeds(hospital.getAvailableBeds() - request.getBedsOccupation());
