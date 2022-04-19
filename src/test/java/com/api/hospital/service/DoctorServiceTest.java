@@ -8,7 +8,6 @@ import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.DoctorRepository;
 import com.api.hospital.repository.HospitalRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
