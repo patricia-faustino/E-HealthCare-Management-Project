@@ -28,3 +28,6 @@ As seguintes ferramentas foram usadas na construção do projeto
 - Junit
 - Mock
 - Mockito
+
+Você pode encontrar as tarefas para criar esse e outros projetos nesse link:
+https://www.simplilearn.com/tutorials/java-tutorial/java-projects-for-beginner
