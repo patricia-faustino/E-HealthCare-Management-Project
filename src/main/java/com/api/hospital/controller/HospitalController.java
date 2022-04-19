@@ -2,13 +2,14 @@ package com.api.hospital.controller;
 
 import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveHospitalRequest;
-import com.api.hospital.model.response.GetHospitalByNameResponse;
+import com.api.hospital.model.response.GetHospitalsByNameResponse;
 import com.api.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/hospital")
@@ -24,8 +25,8 @@ public class HospitalController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<GetHospitalByNameResponse> getHospitalByName(@PathVariable String name) {
-        return ResponseEntity.ok(service.findHospitalByName(name));
+    public ResponseEntity<List<GetHospitalsByNameResponse>> getHospitalsByName(@PathVariable String name) {
+        return ResponseEntity.ok(service.findHospitalsByName(name));
     }
 
     @PutMapping

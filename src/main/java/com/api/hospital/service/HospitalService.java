@@ -4,13 +4,15 @@ import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveHospitalRequest;
-import com.api.hospital.model.response.GetHospitalByNameResponse;
+import com.api.hospital.model.response.GetHospitalsByNameResponse;
 import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,20 +35,27 @@ public class HospitalService {
         hospitalRepository.save(hospital);
     }
 
-    public GetHospitalByNameResponse findHospitalByName(String name) {
-        Hospital hospital= this.findByName(name);
-        return GetHospitalByNameResponse.builder()
-                .id(hospital.getId())
-                .name(hospital.getName())
-                .availableBeds(hospital.getAvailableBeds())
-                .cnpj(hospital.getCnpj())
-                .totalBeds(hospital.getTotalBeds())
-                .cep(hospital.getAddress().getCep())
-                .city(hospital.getAddress().getCity())
-                .district(hospital.getAddress().getDistrict())
-                .street(hospital.getAddress().getStreet())
-                .state(hospital.getAddress().getState())
-                .build();
+    public List<GetHospitalsByNameResponse> findHospitalsByName(String name) {
+        List<Hospital> hospitals = this.findByName(name);
+        List<GetHospitalsByNameResponse> response = new ArrayList<>();
+
+        if(hospitals != null) {
+            for (Hospital hospital : hospitals) {
+                response.add(GetHospitalsByNameResponse.builder()
+                        .id(hospital.getId())
+                        .name(hospital.getName())
+                        .availableBeds(hospital.getAvailableBeds())
+                        .cnpj(hospital.getCnpj())
+                        .totalBeds(hospital.getTotalBeds())
+                        .cep(hospital.getAddress().getCep())
+                        .city(hospital.getAddress().getCity())
+                        .district(hospital.getAddress().getDistrict())
+                        .street(hospital.getAddress().getStreet())
+                        .state(hospital.getAddress().getState())
+                        .build());
+            }
+        }
+        return response;
     }
 
     public void changeNumberAvailableBeds(PutHospitalRequest request) {
@@ -71,9 +80,8 @@ public class HospitalService {
     }
 
     //todo: melhorar excecao quando a entidade não for encontrada
-    private Hospital findByName(String name) {
-        Optional<Hospital> hospital = hospitalRepository.findByName(name);
-        return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
+    private List<Hospital> findByName(String name) {
+        return hospitalRepository.findByNameContainingIgnoreCase(name);
     }
 
     private Hospital findByCnpj(String cnpj) {
