@@ -29,6 +29,7 @@ public class Doctor extends BaseAudit {
     private String crm;
 
     @Column(name = "Specialty")
+    @Enumerated(EnumType.STRING)
     private SPECIALTY specialty;
 
     @ManyToOne

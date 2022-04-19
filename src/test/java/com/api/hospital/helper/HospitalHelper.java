@@ -24,7 +24,7 @@ public class HospitalHelper {
         return Hospital.builder()
                 .id(1L)
                 .name("Hospital Test")
-                .cnpj("85.086.201/0001-06")
+                .cnpj("85086201000106")
                 .totalBeds(100L)
                 .availableBeds(100L)
                 .address(AddressHelper.buildAddress())
