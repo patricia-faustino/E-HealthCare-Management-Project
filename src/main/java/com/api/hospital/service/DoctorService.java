@@ -4,6 +4,7 @@ import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Doctor;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.SaveDoctorRequest;
+import com.api.hospital.model.response.GetByCrmResponse;
 import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.DoctorRepository;
 import com.api.hospital.repository.HospitalRepository;
@@ -49,5 +50,23 @@ public class DoctorService {
     private Hospital findByCnpj(String cnpj) {
         Optional<Hospital> hospital = hospitalRepository.findByCnpj(cnpj);
         return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
+    }
+
+    public GetByCrmResponse getByCrm(String crm) {
+        Doctor doctor = findDoctorByCrm(crm);
+
+        return GetByCrmResponse.builder()
+                .id(doctor.getId())
+                .name(doctor.getName())
+                .crm(doctor.getCrm())
+                .specialty(doctor.getSpecialty().name())
+                .hospitalCnpj(doctor.getHospital().getCnpj())
+                .build();
+    }
+
+    private Doctor findDoctorByCrm(String crm) {
+        Optional<Doctor> doctor = doctorRepository.findByCrm(crm);
+        doctor.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
+        return doctor.get();
     }
 }

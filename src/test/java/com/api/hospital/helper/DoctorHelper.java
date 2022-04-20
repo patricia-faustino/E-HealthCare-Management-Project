@@ -10,7 +10,7 @@ public class DoctorHelper {
                 .id(1L)
                 .name("Doctor Test")
                 .hospital(HospitalHelper.buildHospital())
-                .crm("12345678900")
+                .crm("1234567890")
                 .specialty(SPECIALTY.GENERAL_PRACTITIONER)
                 .address(AddressHelper.buildAddress())
                 .build();
@@ -19,7 +19,7 @@ public class DoctorHelper {
     public static SaveDoctorRequest buildSaveDoctorRequest () {
         return SaveDoctorRequest.builder()
                 .name("Doctor Test")
-                .crm("12345678900")
+                .crm("1234567890")
                 .specialty(SPECIALTY.GENERAL_PRACTITIONER)
                 .hospitalCnpj("85086201000106")
                 .cep("54753-782")

@@ -1,13 +1,11 @@
 package com.api.hospital.controller;
 
 import com.api.hospital.model.request.SaveDoctorRequest;
+import com.api.hospital.model.response.GetByCrmResponse;
 import com.api.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,5 +20,10 @@ public class DoctorController {
     public ResponseEntity<Void> saveHospital(@RequestBody @Valid SaveDoctorRequest request) {
         service.saveDoctor(request);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{crm}")
+    public ResponseEntity<GetByCrmResponse> getByCrm(@PathVariable String crm) {
+        return ResponseEntity.ok(service.getByCrm(crm));
     }
 }
