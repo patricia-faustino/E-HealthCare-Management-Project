@@ -11,8 +11,8 @@
 - [x] Buscar Hospital por Nome
 - [x] Alterar número de leitos do Hospital
 - [x] Deletar Hospital
-- [ ] Cadastrar Médico 
-- [ ] Buscar Médico por Nome
+- [x] Cadastrar Médico 
+- [x] Buscar Médico por Crm
 - [ ] Alterar Endereço do Médico
 - [ ] Deletar Médico
 - [ ] Cadastrar Paciente
