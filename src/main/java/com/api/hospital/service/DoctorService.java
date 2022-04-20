@@ -3,6 +3,7 @@ package com.api.hospital.service;
 import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Doctor;
 import com.api.hospital.model.entities.Hospital;
+import com.api.hospital.model.request.PutDoctorRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
 import com.api.hospital.model.response.GetByCrmResponse;
 import com.api.hospital.repository.AddressRepository;
@@ -50,6 +51,16 @@ public class DoctorService {
 
     public void delete(String crm) {
         doctorRepository.delete(this.findDoctorByCrm(crm));
+    }
+
+    public void putAddressDoctor(PutDoctorRequest request) {
+        Doctor doctor = findDoctorByCrm(request.getCrm());
+        doctor.getAddress().setStreet(request.getStreet());
+        doctor.getAddress().setDistrict(request.getDistrict());
+        doctor.getAddress().setCity(request.getCity());
+        doctor.getAddress().setCep(request.getCep());
+        doctor.getAddress().setState(request.getState());
+        doctorRepository.save(doctor);
     }
 
     private Address saveAddress(SaveDoctorRequest request) {
