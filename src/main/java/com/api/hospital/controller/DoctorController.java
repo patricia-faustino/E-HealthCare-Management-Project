@@ -1,5 +1,6 @@
 package com.api.hospital.controller;
 
+import com.api.hospital.model.request.PutDoctorRequest;
 import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
 import com.api.hospital.model.response.GetByCrmResponse;
@@ -31,6 +32,12 @@ public class DoctorController {
     @DeleteMapping("/{crm}")
     public ResponseEntity<Void> delete(@PathVariable String crm) {
         service.delete(crm);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> putAddressDoctor(@RequestBody @Valid PutDoctorRequest request) {
+        service.putAddressDoctor(request);
         return ResponseEntity.ok().build();
     }
 }
