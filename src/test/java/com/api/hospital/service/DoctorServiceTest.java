@@ -76,6 +76,7 @@ public class DoctorServiceTest {
 
         GetByCrmResponse response = doctorService.getByCrm(crm);
 
+        verify(doctorRepository, times(1)).findByCrm(crm);
         assertEquals(response.getCrm(), doctor.getCrm());
         assertEquals(response.getHospitalCnpj(), doctor.getHospital().getCnpj());
         assertEquals(response.getId(), doctor.getId());
@@ -91,5 +92,25 @@ public class DoctorServiceTest {
         assertThrows(EntityNotFoundException.class,
                 () -> doctorService.getByCrm(crm)
                 , "Entity not found!");
+    }
+
+    @Test
+    public void deleteShouldReturnEntityNotFoundExceptionWhenDoctorNotFound() {
+        String crm = "1234567890";
+        when(doctorRepository.findByCrm(crm)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class,
+                () -> doctorService.delete(crm)
+                , "Entity not found!");
+    }
+
+    @Test
+    public void deleteShouldDeleteDoctor() {
+        String crm = "1234567890";
+        when(doctorRepository.findByCrm(crm)).thenReturn(Optional.of(doctor));
+
+        doctorService.delete(crm);
+        verify(doctorRepository, times(1)).findByCrm(crm);
+        verify(doctorRepository, times(1)).delete(doctor);
     }
 }

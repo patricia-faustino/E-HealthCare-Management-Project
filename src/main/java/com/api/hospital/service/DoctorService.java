@@ -36,6 +36,22 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
+    public GetByCrmResponse getByCrm(String crm) {
+        Doctor doctor = findDoctorByCrm(crm);
+
+        return GetByCrmResponse.builder()
+                .id(doctor.getId())
+                .name(doctor.getName())
+                .crm(doctor.getCrm())
+                .specialty(doctor.getSpecialty().name())
+                .hospitalCnpj(doctor.getHospital().getCnpj())
+                .build();
+    }
+
+    public void delete(String crm) {
+        doctorRepository.delete(this.findDoctorByCrm(crm));
+    }
+
     private Address saveAddress(SaveDoctorRequest request) {
         Address address = new Address();
         address.setCep(request.getCep());
@@ -50,18 +66,6 @@ public class DoctorService {
     private Hospital findByCnpj(String cnpj) {
         Optional<Hospital> hospital = hospitalRepository.findByCnpj(cnpj);
         return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
-    }
-
-    public GetByCrmResponse getByCrm(String crm) {
-        Doctor doctor = findDoctorByCrm(crm);
-
-        return GetByCrmResponse.builder()
-                .id(doctor.getId())
-                .name(doctor.getName())
-                .crm(doctor.getCrm())
-                .specialty(doctor.getSpecialty().name())
-                .hospitalCnpj(doctor.getHospital().getCnpj())
-                .build();
     }
 
     private Doctor findDoctorByCrm(String crm) {
