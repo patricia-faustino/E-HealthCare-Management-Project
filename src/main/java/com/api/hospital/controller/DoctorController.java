@@ -1,5 +1,6 @@
 package com.api.hospital.controller;
 
+import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
 import com.api.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class DoctorController {
     private final DoctorService service;
 
     @PostMapping
-    public ResponseEntity<Void> saveHospital(@RequestBody @Valid SaveDoctorRequest request) {
+    public ResponseEntity<Void> saveDoctor(@RequestBody @Valid SaveDoctorRequest request) {
         service.saveDoctor(request);
         return ResponseEntity.ok().build();
     }
