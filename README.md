@@ -14,7 +14,7 @@
 - [x] Cadastrar Médico 
 - [x] Buscar Médico por Crm
 - [ ] Alterar Endereço do Médico
-- [ ] Deletar Médico
+- [x] Deletar Médico
 - [ ] Cadastrar Paciente
 - [ ] Buscar Paciente
 - [ ] Alterar Endereço do Paciente
