@@ -13,7 +13,7 @@
 - [x] Deletar Hospital
 - [x] Cadastrar Médico 
 - [x] Buscar Médico por Crm
-- [ ] Alterar Endereço do Médico
+- [X] Alterar Endereço do Médico
 - [x] Deletar Médico
 - [ ] Cadastrar Paciente
 - [ ] Buscar Paciente
