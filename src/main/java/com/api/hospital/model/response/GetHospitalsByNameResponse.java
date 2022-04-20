@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class GetHospitalByNameResponse {
+public class GetHospitalsByNameResponse {
 
     private Long id;
 

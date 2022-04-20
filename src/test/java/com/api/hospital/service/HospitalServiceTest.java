@@ -4,7 +4,7 @@ package com.api.hospital.service;
 import com.api.hospital.helper.HospitalHelper;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutHospitalRequest;
-import com.api.hospital.model.response.GetHospitalByNameResponse;
+import com.api.hospital.model.response.GetHospitalsByNameResponse;
 import com.api.hospital.repository.HospitalRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +16,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,45 +33,44 @@ public class HospitalServiceTest {
     private HospitalRepository hospitalRepository;
 
     private Hospital hospital;
+    private List<Hospital> hospitals = new ArrayList<>();
     private PutHospitalRequest putHospitalRequest;
     private final String name = "Hospital Test";
     private final String cnpj = "85.086.201/0001-06";
-
-    @Captor
-    private ArgumentCaptor<Hospital> hospitalCaptor;
 
     @Before
     public void before() {
         hospital = HospitalHelper.buildHospital();
         putHospitalRequest = HospitalHelper.buildPutHospitalRequest();
+        hospitals.add(hospital);
     }
 
     @Test
-    public void findHospitalByNameShouldReturnGetHospitalByNameResponseWhenHospitalFound() {
-        when(hospitalRepository.findByName(name)).thenReturn(Optional.of(hospital));
+    public void findHospitalsByNameShouldReturnGetHospitalsByNameResponseWhenHospitalFound() {
+        when(hospitalRepository.findByNameContainingIgnoreCase(name)).thenReturn(hospitals);
 
-        GetHospitalByNameResponse response = hospitalService.findHospitalByName(name);
+        List<GetHospitalsByNameResponse> response = hospitalService.findHospitalsByName(name);
 
-        verify(hospitalRepository, times( 1)).findByName(name);
-        assertEquals(response.getId(), hospital.getId());
-        assertEquals(response.getAvailableBeds(), hospital.getAvailableBeds());
-        assertEquals(response.getTotalBeds(), hospital.getTotalBeds());
-        assertEquals(response.getName(), hospital.getName());
-        assertEquals(response.getCnpj(), hospital.getCnpj());
-        assertEquals(response.getCep(), hospital.getAddress().getCep());
-        assertEquals(response.getDistrict(), hospital.getAddress().getDistrict());
-        assertEquals(response.getCity(), hospital.getAddress().getCity());
-        assertEquals(response.getState(), hospital.getAddress().getState());
-        assertEquals(response.getStreet(), hospital.getAddress().getStreet());
+        verify(hospitalRepository, times( 1)).findByNameContainingIgnoreCase(name);
+        assertEquals(response.get(0).getId(), hospital.getId());
+        assertEquals(response.get(0).getAvailableBeds(), hospital.getAvailableBeds());
+        assertEquals(response.get(0).getTotalBeds(), hospital.getTotalBeds());
+        assertEquals(response.get(0).getName(), hospital.getName());
+        assertEquals(response.get(0).getCnpj(), hospital.getCnpj());
+        assertEquals(response.get(0).getCep(), hospital.getAddress().getCep());
+        assertEquals(response.get(0).getDistrict(), hospital.getAddress().getDistrict());
+        assertEquals(response.get(0).getCity(), hospital.getAddress().getCity());
+        assertEquals(response.get(0).getState(), hospital.getAddress().getState());
+        assertEquals(response.get(0).getStreet(), hospital.getAddress().getStreet());
     }
 
     @Test
-    public void findHospitalByNameShouldReturnEntityNotFoundExceptionWhenHospitalNotFound() {
-        when(hospitalRepository.findByName(name)).thenReturn(Optional.empty());
+    public void findHospitalsByNameShouldReturnEntityNotFoundExceptionWhenHospitalNotFound() {
+        when(hospitalRepository.findByNameContainingIgnoreCase(name)).thenReturn(null);
 
-        assertThrows( EntityNotFoundException.class,
-                () -> hospitalService.findHospitalByName(name),
-                "Entity not found!") ;
+        List<GetHospitalsByNameResponse> response = hospitalService.findHospitalsByName(name);
+
+        assertTrue(response.isEmpty());
     }
 
     @Test
