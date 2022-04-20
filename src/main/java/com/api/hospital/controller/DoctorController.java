@@ -26,4 +26,10 @@ public class DoctorController {
     public ResponseEntity<GetByCrmResponse> getByCrm(@PathVariable String crm) {
         return ResponseEntity.ok(service.getByCrm(crm));
     }
+
+    @DeleteMapping("/{crm}")
+    public ResponseEntity<Void> delete(@PathVariable String crm) {
+        service.delete(crm);
+        return ResponseEntity.ok().build();
+    }
 }
