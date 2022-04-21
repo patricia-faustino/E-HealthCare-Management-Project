@@ -29,5 +29,5 @@ As seguintes ferramentas foram usadas na construção do projeto
 - Mock
 - Mockito
 
-Você pode encontrar as tarefas para criar esse e outros projetos nesse link:
+#### Você pode tomar como base esse e outros projetos nesse link:
 https://www.simplilearn.com/tutorials/java-tutorial/java-projects-for-beginner
