@@ -5,21 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.validator.constraints.br.CNPJ;
-
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PutHospitalRequest {
+public class SaveAddressRequest {
 
-    @CNPJ
-    @NotNull
-    private String cnpj;
+    private String cep;
 
-    @NotNull
-    private Long bedsOccupation;
+    private String street;
+
+    private String district;
+
+    private String city;
+
+    private String state;
 }

@@ -84,6 +84,19 @@ public class HospitalServiceTest {
     }
 
     @Test
+    public void findByCnpjShoulReturnHospital() {
+        when(hospitalRepository.findByCnpj(cnpj)).thenReturn(Optional.of(hospital));
+
+        Hospital response = hospitalService.findByCnpj(cnpj);
+
+        verify(hospitalRepository, times(1)).findByCnpj(cnpj);
+        assertEquals(response.getName(), hospital.getName());
+        assertEquals(response.getAvailableBeds(), hospital.getAvailableBeds());
+        assertEquals(response.getTotalBeds(), hospital.getTotalBeds());
+        assertEquals(response.getCnpj(), hospital.getCnpj());
+    }
+
+    @Test
     public void changeNumberAvailableBedsShouldEntityNotFoundExceptionWhenHospitalNotFound() {
         when(hospitalRepository.findByCnpj(cnpj)).thenReturn(Optional.empty());
 

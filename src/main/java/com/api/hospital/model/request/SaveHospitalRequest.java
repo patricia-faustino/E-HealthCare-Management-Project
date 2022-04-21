@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
 @Getter
 @Setter
 @SuperBuilder

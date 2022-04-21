@@ -7,9 +7,7 @@ import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutDoctorRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
 import com.api.hospital.model.response.GetByCrmResponse;
-import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.DoctorRepository;
-import com.api.hospital.repository.HospitalRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,17 +32,16 @@ public class DoctorServiceTest {
     private DoctorRepository doctorRepository;
 
     @Mock
-    private HospitalRepository hospitalRepository;
+    private HospitalService hospitalService;
 
     @Mock
-    private AddressRepository addressRepository;
+    private AddressService addressService;
 
     private SaveDoctorRequest saveDoctorRequest;
     private Hospital hospital;
     private Doctor doctor;
     private PutDoctorRequest putDoctorRequest;
     private final String crm = "1234567890";
-
 
     @Before
     public void before() {
@@ -55,23 +52,14 @@ public class DoctorServiceTest {
     }
 
     @Test
-    public void saveDoctorShouldReturnEntityNotFoundExceptionHospitalNotFound() {
-        when(hospitalRepository.findByCnpj(saveDoctorRequest.getHospitalCnpj())).thenReturn(Optional.of(hospital));
+    public void saveShouldReturnEntityNotFoundExceptionHospitalNotFound() {
+        when(hospitalService.findByCnpj(saveDoctorRequest.getHospitalCnpj())).thenReturn(hospital);
 
-        doctorService.saveDoctor(saveDoctorRequest);
+        doctorService.save(saveDoctorRequest);
 
-        verify(hospitalRepository, times(1)).findByCnpj(saveDoctorRequest.getHospitalCnpj());
+        verify(hospitalService, times(1)).findByCnpj(saveDoctorRequest.getHospitalCnpj());
         verify(doctorRepository, times(1)).save(any());
-        verify(addressRepository, times(1)).save(any());
-    }
-
-    @Test
-    public void saveDoctorShouldSaveWhenHospitalFound() {
-        when(hospitalRepository.findByCnpj(saveDoctorRequest.getHospitalCnpj())).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class,
-                () ->  doctorService.saveDoctor(saveDoctorRequest),
-                "Entity not found!");
+        verify(addressService, times(1)).save(any());
     }
 
     @Test
