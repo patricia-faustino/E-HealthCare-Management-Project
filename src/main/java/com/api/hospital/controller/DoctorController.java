@@ -2,7 +2,7 @@ package com.api.hospital.controller;
 
 import com.api.hospital.model.request.PutDoctorRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
-import com.api.hospital.model.response.GetByCrmResponse;
+import com.api.hospital.model.response.GetDoctorByCrmResponse;
 import com.api.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class DoctorController {
     }
 
     @GetMapping("/{crm}")
-    public ResponseEntity<GetByCrmResponse> getByCrm(@PathVariable String crm) {
+    public ResponseEntity<GetDoctorByCrmResponse> getByCrm(@PathVariable String crm) {
         return ResponseEntity.ok(service.getByCrm(crm));
     }
 

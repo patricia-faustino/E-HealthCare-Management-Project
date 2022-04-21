@@ -3,6 +3,7 @@ package com.api.hospital.service;
 import com.api.hospital.helper.PatientHelper;
 import com.api.hospital.model.entities.Patient;
 import com.api.hospital.model.request.PutPatientRequest;
+import com.api.hospital.model.response.GetPatientByCpfResponse;
 import com.api.hospital.repository.PatientRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -88,5 +88,32 @@ public class PatientServiceTest {
         assertThrows(UnsupportedOperationException.class,
                 () -> patientService.delete(cpf),
                 "Patient is already inactive!");
+    }
+
+    @Test
+    public void getByCpfShouldReturnGetPatientByCpfResponse() {
+        when(patientRepository.findByCpf(cpf)).thenReturn(Optional.of(patient));
+
+        GetPatientByCpfResponse response = patientService.getByCpf(cpf);
+
+        verify(patientRepository, times(1)).findByCpf(cpf);
+        assertEquals(patient.getName(), response.getName());
+        assertEquals(patient.getCpf(), response.getCpf());
+        assertEquals(patient.getAddress().getCep(), response.getCep());
+        assertEquals(patient.getAddress().getStreet(), response.getStreet());
+        assertEquals(patient.getAddress().getDistrict(), response.getDistrict());
+        assertEquals(patient.getAddress().getCity(), response.getCity());
+        assertEquals(patient.getAddress().getState(), response.getState());
+        assertEquals(patient.getStatus().toString(), response.getStatus());
+        assertEquals(patient.getSymptoms(), response.getSymptoms());
+    }
+
+    @Test
+    public void getByCpfShouldReturnEntityNotFoundExceptionWhenPatientNotFound() {
+        when(patientRepository.findByCpf(cpf)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class,
+                () -> patientService.getByCpf(cpf),
+                "Entity not found!");
     }
 }

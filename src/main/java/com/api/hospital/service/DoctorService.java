@@ -6,7 +6,7 @@ import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutDoctorRequest;
 import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
-import com.api.hospital.model.response.GetByCrmResponse;
+import com.api.hospital.model.response.GetDoctorByCrmResponse;
 import com.api.hospital.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,9 +43,9 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
-    public GetByCrmResponse getByCrm(String crm) {
+    public GetDoctorByCrmResponse getByCrm(String crm) {
         Doctor doctor = findDoctorByCrm(crm);
-        return GetByCrmResponse.builder()
+        return GetDoctorByCrmResponse.builder()
                 .id(doctor.getId())
                 .name(doctor.getName())
                 .crm(doctor.getCrm())

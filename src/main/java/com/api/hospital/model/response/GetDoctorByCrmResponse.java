@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class GetByCrmResponse {
+public class GetDoctorByCrmResponse {
 
     private Long id;
 
