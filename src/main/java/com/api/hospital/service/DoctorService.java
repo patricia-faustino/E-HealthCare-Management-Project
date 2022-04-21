@@ -68,7 +68,7 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
 
-    private Doctor findDoctorByCrm(String crm) {
+    public Doctor findDoctorByCrm(String crm) {
         Optional<Doctor> doctor = doctorRepository.findByCrm(crm);
         doctor.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
         return doctor.get();

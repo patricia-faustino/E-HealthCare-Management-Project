@@ -6,14 +6,14 @@ import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SavePatientRequest;
 import com.api.hospital.model.response.GetPatientByCpfResponse;
 import com.api.hospital.repository.PatientRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PatientService {
 
     private final PatientRepository patientRepository;
@@ -67,7 +67,7 @@ public class PatientService {
         }
     }
 
-    private Patient findByCpf(String cpf) {
+    public Patient findByCpf(String cpf) {
         Optional<Patient> patient = patientRepository.findByCpf(cpf);
         return patient.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
