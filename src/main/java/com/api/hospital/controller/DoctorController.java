@@ -18,8 +18,8 @@ public class DoctorController {
     private final DoctorService service;
 
     @PostMapping
-    public ResponseEntity<Void> saveDoctor(@RequestBody @Valid SaveDoctorRequest request) {
-        service.saveDoctor(request);
+    public ResponseEntity<Void> save(@RequestBody @Valid SaveDoctorRequest request) {
+        service.save(request);
         return ResponseEntity.ok().build();
     }
 

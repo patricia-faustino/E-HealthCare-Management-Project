@@ -1,9 +1,8 @@
 package com.api.hospital.service;
 
-import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Patient;
+import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SavePatientRequest;
-import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,25 +12,21 @@ import org.springframework.stereotype.Service;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private final AddressRepository addressRepository;
+    private final AddressService addressService;
 
     public void save(SavePatientRequest request) {
+        SaveAddressRequest saveAddressRequest = SaveAddressRequest.builder()
+                .cep(request.getCep())
+                .city(request.getCity())
+                .district(request.getDistrict())
+                .street(request.getStreet())
+                .state(request.getState())
+                .build();
         Patient patient = new Patient();
         patient.setName(request.getName());
         patient.setCpf(request.getCpf());
         patient.setSymptoms(request.getSymptoms());
-        patient.setAddress(this.saveAddress(request));
+        patient.setAddress(addressService.save(saveAddressRequest));
         patientRepository.save(patient);
-    }
-
-    private Address saveAddress(SavePatientRequest request) {
-        Address address = new Address();
-        address.setCep(request.getCep());
-        address.setCity(request.getCity());
-        address.setDistrict(request.getDistrict());
-        address.setStreet(request.getStreet());
-        address.setState(request.getState());
-        addressRepository.save(address);
-        return address;
     }
 }

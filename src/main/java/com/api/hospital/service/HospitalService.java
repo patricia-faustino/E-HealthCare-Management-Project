@@ -3,9 +3,9 @@ package com.api.hospital.service;
 import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutHospitalRequest;
+import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SaveHospitalRequest;
 import com.api.hospital.model.response.GetHospitalsByNameResponse;
-import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,17 @@ import java.util.Optional;
 public class HospitalService {
 
     private final HospitalRepository hospitalRepository;
+    private final AddressService addressService;
 
-    private final AddressRepository addressRepository;
-
-    public void saveHospital(SaveHospitalRequest request) {
-        Address address = this.saveAddress(request);
+    public void save(SaveHospitalRequest request) {
+        SaveAddressRequest saveAddressRequest = SaveAddressRequest.builder()
+                .cep(request.getCep())
+                .city(request.getCity())
+                .district(request.getDistrict())
+                .street(request.getStreet())
+                .state(request.getState())
+                .build();
+        Address address = addressService.save(saveAddressRequest);
 
         Hospital hospital = new Hospital();
         hospital.setAddress(address);
@@ -64,28 +70,17 @@ public class HospitalService {
         hospitalRepository.save(hospital);
     }
 
-    public void delete(String cpnj) {
-        hospitalRepository.delete(this.findByCnpj(cpnj));
+    public Hospital findByCnpj(String cnpj) {
+        Optional<Hospital> hospital = hospitalRepository.findByCnpj(cnpj);
+        return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
 
-    private Address saveAddress(SaveHospitalRequest request) {
-        Address address = new Address();
-        address.setCep(request.getCep());
-        address.setCity(request.getCity());
-        address.setDistrict(request.getDistrict());
-        address.setStreet(request.getStreet());
-        address.setState(request.getState());
-        addressRepository.save(address);
-        return address;
+    public void delete(String cpnj) {
+        hospitalRepository.delete(this.findByCnpj(cpnj));
     }
 
     //todo: melhorar excecao quando a entidade não for encontrada
     private List<Hospital> findByName(String name) {
         return hospitalRepository.findByNameContainingIgnoreCase(name);
-    }
-
-    private Hospital findByCnpj(String cnpj) {
-        Optional<Hospital> hospital = hospitalRepository.findByCnpj(cnpj);
-        return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
 }

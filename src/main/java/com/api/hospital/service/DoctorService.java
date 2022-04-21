@@ -4,11 +4,10 @@ import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Doctor;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutDoctorRequest;
+import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
 import com.api.hospital.model.response.GetByCrmResponse;
-import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.DoctorRepository;
-import com.api.hospital.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +19,20 @@ import java.util.Optional;
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
-    private final AddressRepository addressRepository;
-    private final HospitalRepository hospitalRepository;
+    private final AddressService addressService;
+    private final HospitalService hospitalService;
 
-    public void saveDoctor(SaveDoctorRequest request) {
-        Hospital hospital = this.findByCnpj(request.getHospitalCnpj());
+    public void save(SaveDoctorRequest request) {
+        Hospital hospital = hospitalService.findByCnpj(request.getHospitalCnpj());
 
-        Address address = saveAddress(request);
+        SaveAddressRequest saveAddressRequest = SaveAddressRequest.builder()
+                .cep(request.getCep())
+                .city(request.getCity())
+                .district(request.getDistrict())
+                .street(request.getStreet())
+                .state(request.getState())
+                .build();
+        Address address = addressService.save(saveAddressRequest);
 
         Doctor doctor = new Doctor();
         doctor.setName(request.getName());
@@ -39,7 +45,6 @@ public class DoctorService {
 
     public GetByCrmResponse getByCrm(String crm) {
         Doctor doctor = findDoctorByCrm(crm);
-
         return GetByCrmResponse.builder()
                 .id(doctor.getId())
                 .name(doctor.getName())
@@ -61,22 +66,6 @@ public class DoctorService {
         doctor.getAddress().setCep(request.getCep());
         doctor.getAddress().setState(request.getState());
         doctorRepository.save(doctor);
-    }
-
-    private Address saveAddress(SaveDoctorRequest request) {
-        Address address = new Address();
-        address.setCep(request.getCep());
-        address.setCity(request.getCity());
-        address.setDistrict(request.getDistrict());
-        address.setStreet(request.getStreet());
-        address.setState(request.getState());
-        addressRepository.save(address);
-        return address;
-    }
-
-    private Hospital findByCnpj(String cnpj) {
-        Optional<Hospital> hospital = hospitalRepository.findByCnpj(cnpj);
-        return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
 
     private Doctor findDoctorByCrm(String crm) {

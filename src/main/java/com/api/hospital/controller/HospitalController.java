@@ -19,8 +19,8 @@ public class HospitalController {
     private final HospitalService service;
 
     @PostMapping
-    public ResponseEntity<Void> saveHospital(@RequestBody @Valid SaveHospitalRequest request) {
-        service.saveHospital(request);
+    public ResponseEntity<Void> save(@RequestBody @Valid SaveHospitalRequest request) {
+        service.save(request);
         return ResponseEntity.ok().build();
     }
 
