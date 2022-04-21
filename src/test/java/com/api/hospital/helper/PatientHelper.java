@@ -1,6 +1,7 @@
 package com.api.hospital.helper;
 
 import com.api.hospital.model.entities.Patient;
+import com.api.hospital.model.request.PutPatientRequest;
 import com.api.hospital.model.request.SavePatientRequest;
 
 public class PatientHelper {
@@ -15,16 +16,10 @@ public class PatientHelper {
                 .build();
     }
 
-    public static SavePatientRequest buildSavePatientRequest() {
-        return SavePatientRequest.builder()
-                .name("Patient Test")
+    public static PutPatientRequest buildPutPatientRequest() {
+        return PutPatientRequest.builder()
+                .name("Social Name Test")
                 .cpf("123.456.789-00")
-                .symptoms("Headache, fever")
-                .cep("54753-782")
-                .city("Manaus")
-                .state("Amazonas")
-                .district("Alvorada")
-                .street("Rua C 11")
                 .build();
     }
 }
