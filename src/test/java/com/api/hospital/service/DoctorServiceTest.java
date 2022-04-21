@@ -6,7 +6,7 @@ import com.api.hospital.model.entities.Doctor;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.request.PutDoctorRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
-import com.api.hospital.model.response.GetByCrmResponse;
+import com.api.hospital.model.response.GetDoctorByCrmResponse;
 import com.api.hospital.repository.DoctorRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class DoctorServiceTest {
     public void getByCrmShouldReturnGetByCrmResponseDoctorFound() {
         when(doctorRepository.findByCrm(crm)).thenReturn(Optional.of(doctor));
 
-        GetByCrmResponse response = doctorService.getByCrm(crm);
+        GetDoctorByCrmResponse response = doctorService.getByCrm(crm);
 
         verify(doctorRepository, times(1)).findByCrm(crm);
         assertEquals(response.getCrm(), doctor.getCrm());

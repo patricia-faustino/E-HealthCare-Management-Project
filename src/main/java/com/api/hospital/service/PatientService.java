@@ -4,6 +4,7 @@ import com.api.hospital.model.entities.Patient;
 import com.api.hospital.model.request.PutPatientRequest;
 import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SavePatientRequest;
+import com.api.hospital.model.response.GetPatientByCpfResponse;
 import com.api.hospital.repository.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,21 @@ public class PatientService {
         patientIsInactive(patient);
         patient.setStatus(Boolean.FALSE);
         patientRepository.save(patient);
+    }
+
+    public GetPatientByCpfResponse getByCpf(String cpf) {
+        Patient patient = this.findByCpf(cpf);
+        return GetPatientByCpfResponse.builder()
+                .name(patient.getName())
+                .cpf(patient.getCpf())
+                .cep(patient.getAddress().getCep())
+                .street(patient.getAddress().getStreet())
+                .district(patient.getAddress().getDistrict())
+                .city(patient.getAddress().getCity())
+                .state(patient.getAddress().getState())
+                .symptoms(patient.getSymptoms())
+                .status(patient.getStatus().toString())
+                .build();
     }
 
     private void patientIsInactive(Patient patient) {

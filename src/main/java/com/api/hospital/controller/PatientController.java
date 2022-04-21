@@ -2,6 +2,7 @@ package com.api.hospital.controller;
 
 import com.api.hospital.model.request.PutPatientRequest;
 import com.api.hospital.model.request.SavePatientRequest;
+import com.api.hospital.model.response.GetPatientByCpfResponse;
 import com.api.hospital.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,10 @@ public class PatientController {
     public ResponseEntity<Void> delete(@PathVariable String cpf) {
         service.delete(cpf);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{cpf}")
+    public ResponseEntity<GetPatientByCpfResponse> getByCpf(@PathVariable String cpf) {
+        return ResponseEntity.ok(service.getByCpf(cpf));
     }
 }

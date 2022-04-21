@@ -16,7 +16,7 @@
 - [X] Alterar Endereço do Médico
 - [x] Deletar Médico
 - [x] Cadastrar Paciente
-- [ ] Buscar Paciente por Cpf
+- [x] Buscar Paciente por Cpf
 - [x] Alterar Nome do Paciente
 - [x] Deletar Paciente
 
