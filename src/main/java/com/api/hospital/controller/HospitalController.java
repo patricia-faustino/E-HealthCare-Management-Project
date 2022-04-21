@@ -35,9 +35,9 @@ public class HospitalController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{cpnj}")
-    public ResponseEntity<Void> delete(@PathVariable String cpnj) {
-        service.delete(cpnj);
+    @DeleteMapping("/{cnpj}")
+    public ResponseEntity<Void> delete(@PathVariable String cnpj) {
+        service.delete(cnpj);
         return ResponseEntity.ok().build();
     }
 }
