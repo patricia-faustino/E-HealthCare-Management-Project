@@ -1,6 +1,5 @@
 package com.api.hospital.service;
 
-import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.entities.Patient;
 import com.api.hospital.model.request.PutPatientRequest;
 import com.api.hospital.model.request.SaveAddressRequest;
@@ -39,6 +38,19 @@ public class PatientService {
         Patient patient = this.findByCpf(request.getCpf());
         patient.setName(request.getName());
         patientRepository.save(patient);
+    }
+
+    public void delete(String cpf) {
+        Patient patient = this.findByCpf(cpf);
+        patientIsInactive(patient);
+        patient.setStatus(Boolean.FALSE);
+        patientRepository.save(patient);
+    }
+
+    private void patientIsInactive(Patient patient) {
+        if(patient.getStatus() == Boolean.FALSE) {
+            throw new UnsupportedOperationException("Patient is already inactive!");
+        }
     }
 
     private Patient findByCpf(String cpf) {

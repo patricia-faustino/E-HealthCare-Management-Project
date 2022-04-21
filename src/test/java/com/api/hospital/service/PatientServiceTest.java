@@ -1,11 +1,8 @@
 package com.api.hospital.service;
 
-import com.api.hospital.helper.AddressHelper;
 import com.api.hospital.helper.PatientHelper;
-import com.api.hospital.model.entities.Address;
 import com.api.hospital.model.entities.Patient;
 import com.api.hospital.model.request.PutPatientRequest;
-import com.api.hospital.repository.AddressRepository;
 import com.api.hospital.repository.PatientRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,19 +28,20 @@ public class PatientServiceTest {
     private PatientRepository patientRepository;
 
     private Patient patient;
+    private Patient patientInactive;
     private PutPatientRequest putPatientRequest;
     private static final String cpf = "123.456.789-00";
 
     @Before
     public void before() {
-        patient = PatientHelper.buildPatient();
+        patient = PatientHelper.buildPatientActive();
         putPatientRequest = PatientHelper.buildPutPatientRequest();
+        patientInactive = PatientHelper.buildPatientInactive();
     }
 
     @Test
     public void shouldPutNameWhenPatientFound() {
         when(patientRepository.findByCpf(cpf)).thenReturn(Optional.of(patient));
-
         String oldName = patient.getName();
 
         patientService.putName(putPatientRequest);
@@ -60,5 +58,35 @@ public class PatientServiceTest {
         assertThrows(EntityNotFoundException.class,
                 () -> patientService.putName(putPatientRequest),
                  "Entity not found!");
+    }
+
+    @Test
+    public void shouldDeletePatient() {
+        when(patientRepository.findByCpf(cpf)).thenReturn(Optional.of(patient));
+        Boolean oldStatus = patient.getStatus();
+
+        patientService.delete(cpf);
+
+        verify(patientRepository, times(1)).findByCpf(cpf);
+        verify(patientRepository, times(1)).save(patient);
+        assertNotEquals(patient.getStatus(), oldStatus);
+    }
+
+    @Test
+    public void deleteShouldReturnEntityNotFoundExceptionWhenPatientNotFound() {
+        when(patientRepository.findByCpf(cpf)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class,
+                () -> patientService.delete(cpf),
+                "Entity not found!");
+    }
+
+    @Test
+    public void deleteShouldReturnUnsupportedOperationExceptionWhenPatientIsInactive() {
+        when(patientRepository.findByCpf(cpf)).thenReturn(Optional.of(patientInactive));
+
+        assertThrows(UnsupportedOperationException.class,
+                () -> patientService.delete(cpf),
+                "Patient is already inactive!");
     }
 }

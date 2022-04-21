@@ -75,8 +75,8 @@ public class HospitalService {
         return hospital.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
 
-    public void delete(String cpnj) {
-        hospitalRepository.delete(this.findByCnpj(cpnj));
+    public void delete(String cnpj) {
+        hospitalRepository.delete(this.findByCnpj(cnpj));
     }
 
     //todo: melhorar excecao quando a entidade não for encontrada

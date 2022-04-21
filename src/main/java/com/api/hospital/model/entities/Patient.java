@@ -33,4 +33,7 @@ public class Patient extends BaseAudit {
 
     @Column(name = "Symptoms")
     private String symptoms;
+
+    @Column(name = "Status")
+    private Boolean status = Boolean.TRUE;
 }
