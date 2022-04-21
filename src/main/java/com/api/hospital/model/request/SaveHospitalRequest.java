@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,7 +21,8 @@ public class SaveHospitalRequest {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @CNPJ
+    @NotNull
     private String cnpj;
 
     @NotNull
