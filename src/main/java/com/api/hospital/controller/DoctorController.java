@@ -1,7 +1,6 @@
 package com.api.hospital.controller;
 
 import com.api.hospital.model.request.PutDoctorRequest;
-import com.api.hospital.model.request.PutHospitalRequest;
 import com.api.hospital.model.request.SaveDoctorRequest;
 import com.api.hospital.model.response.GetByCrmResponse;
 import com.api.hospital.service.DoctorService;
