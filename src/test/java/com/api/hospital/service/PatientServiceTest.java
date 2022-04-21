@@ -105,7 +105,6 @@ public class PatientServiceTest {
         assertEquals(patient.getAddress().getCity(), response.getCity());
         assertEquals(patient.getAddress().getState(), response.getState());
         assertEquals(patient.getStatus().toString(), response.getStatus());
-        assertEquals(patient.getSymptoms(), response.getSymptoms());
     }
 
     @Test

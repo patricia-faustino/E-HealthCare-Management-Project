@@ -25,9 +25,6 @@ public class SavePatientRequest {
     private String cpf;
 
     @NotBlank
-    private String symptoms;
-
-    @NotBlank
     private String cep;
 
     @NotBlank

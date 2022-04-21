@@ -32,4 +32,7 @@ public class Consultation extends BaseAudit {
     @ManyToOne
     @JoinColumn(name ="IdDoctor")
     private Doctor doctor;
+
+    @Column(name = "Symptoms")
+    private String symptoms;
 }

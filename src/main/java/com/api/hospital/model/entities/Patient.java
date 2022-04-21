@@ -31,9 +31,6 @@ public class Patient extends BaseAudit {
     @JoinColumn(name = "IdAddress")
     private Address address;
 
-    @Column(name = "Symptoms")
-    private String symptoms;
-
     @Column(name = "Status")
     private Boolean status = Boolean.TRUE;
 }

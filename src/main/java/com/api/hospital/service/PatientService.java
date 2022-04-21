@@ -30,7 +30,6 @@ public class PatientService {
         Patient patient = new Patient();
         patient.setName(request.getName());
         patient.setCpf(request.getCpf());
-        patient.setSymptoms(request.getSymptoms());
         patient.setAddress(addressService.save(saveAddressRequest));
         patientRepository.save(patient);
     }
@@ -58,7 +57,6 @@ public class PatientService {
                 .district(patient.getAddress().getDistrict())
                 .city(patient.getAddress().getCity())
                 .state(patient.getAddress().getState())
-                .symptoms(patient.getSymptoms())
                 .status(patient.getStatus().toString())
                 .build();
     }
