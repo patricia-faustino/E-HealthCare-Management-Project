@@ -27,4 +27,10 @@ public class PatientController {
         service.putName(request);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{cpf}")
+    public ResponseEntity<Void> delete(@PathVariable String cpf) {
+        service.delete(cpf);
+        return ResponseEntity.ok().build();
+    }
 }

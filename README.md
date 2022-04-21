@@ -15,10 +15,10 @@
 - [x] Buscar Médico por Crm
 - [X] Alterar Endereço do Médico
 - [x] Deletar Médico
-- [ ] Cadastrar Paciente
-- [ ] Buscar Paciente
-- [ ] Alterar Endereço do Paciente
-- [ ] Deletar Paciente
+- [x] Cadastrar Paciente
+- [ ] Buscar Paciente por Cpf
+- [x] Alterar Nome do Paciente
+- [x] Deletar Paciente
 
 ### Tecnologias
 As seguintes ferramentas foram usadas na construção do projeto
