@@ -1,11 +1,16 @@
 package com.api.hospital.service;
 
+import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.entities.Patient;
+import com.api.hospital.model.request.PutPatientRequest;
 import com.api.hospital.model.request.SaveAddressRequest;
 import com.api.hospital.model.request.SavePatientRequest;
 import com.api.hospital.repository.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -28,5 +33,16 @@ public class PatientService {
         patient.setSymptoms(request.getSymptoms());
         patient.setAddress(addressService.save(saveAddressRequest));
         patientRepository.save(patient);
+    }
+
+    public void putName(PutPatientRequest request) {
+        Patient patient = this.findByCpf(request.getCpf());
+        patient.setName(request.getName());
+        patientRepository.save(patient);
+    }
+
+    private Patient findByCpf(String cpf) {
+        Optional<Patient> patient = patientRepository.findByCpf(cpf);
+        return patient.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
     }
 }
