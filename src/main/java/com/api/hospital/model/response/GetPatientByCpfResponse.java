@@ -23,7 +23,5 @@ public class GetPatientByCpfResponse {
 
     private String state;
 
-    private String symptoms;
-
     private String status;
 }

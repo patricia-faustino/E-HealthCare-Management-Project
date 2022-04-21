@@ -10,7 +10,6 @@ public class PatientHelper {
                 .id(1L)
                 .name("Patient Test")
                 .cpf("123.456.789-00")
-                .symptoms("Headache, fever")
                 .address(AddressHelper.buildAddress())
                 .status(Boolean.TRUE)
                 .build();
@@ -21,7 +20,6 @@ public class PatientHelper {
                 .id(1L)
                 .name("Patient Test")
                 .cpf("123.456.789-00")
-                .symptoms("Headache, fever")
                 .address(AddressHelper.buildAddress())
                 .status(Boolean.FALSE)
                 .build();
