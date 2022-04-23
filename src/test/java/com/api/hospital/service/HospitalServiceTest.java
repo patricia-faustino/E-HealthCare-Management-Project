@@ -63,7 +63,7 @@ public class HospitalServiceTest {
     }
 
     @Test
-    public void findHospitalsByNameShouldReturnEntityNotFoundExceptionWhenHospitalNotFound() {
+    public void findHospitalsByNameShouldReturnResponseEmptyWhenHospitalNotFound() {
         when(hospitalRepository.findByNameContainingIgnoreCase(name)).thenReturn(null);
 
         List<GetHospitalsByNameResponse> response = hospitalService.findHospitalsByName(name);
