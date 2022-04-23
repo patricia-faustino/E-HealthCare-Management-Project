@@ -51,6 +51,7 @@ public class ConsultationServiceTest {
     private static final String cpf = "123.456.789-00";
     private final String cnpj = "85.086.201/0001-06";
     private final String crm = "1234567890";
+    List<Consultation> consultations = new ArrayList<>();
 
     @Before
     public void before() {
@@ -59,6 +60,7 @@ public class ConsultationServiceTest {
         doctor = DoctorHelper.buildDoctor();
         saveConsultationRequest = ConsultationHelper.buildSaveConsultationRequest();
         consultation = ConsultationHelper.buildConsultation();
+        consultations.add(consultation);
     }
 
     @Test
@@ -76,9 +78,7 @@ public class ConsultationServiceTest {
     }
 
     @Test
-    public void shouldGetByCrm() {
-        List<Consultation> consultations = new ArrayList<>();
-        consultations.add(consultation);
+    public void getByCrmShouldReturnGetConsultationResponse() {
         when(repository.findByDoctorCrm(crm)).thenReturn(consultations);
 
         List<GetConsultationResponse> response = consultationService.getByCrm(crm);
@@ -94,10 +94,54 @@ public class ConsultationServiceTest {
     }
 
     @Test
-    public void getByCrmShouldReturnEntityNotFoundWhenConsultationNotFound() {
-        when(repository.findByDoctorCrm(crm)).thenReturn(null);
-
+    public void getByCrmShouldReturnResponseEmptyWhenConsultationNotFound() {
         List<GetConsultationResponse> response = consultationService.getByCrm(crm);
+
+        assertTrue(response.isEmpty());
+    }
+
+    @Test
+    public void getByCpfShouldReturnGetConsultationResponse() {
+        when(repository.findByPatientCpf(cpf)).thenReturn(consultations);
+
+        List<GetConsultationResponse> response = consultationService.getByCpf(cpf);
+
+        verify(repository, times(1)).findByPatientCpf(cpf);
+        assertEquals(response.get(0).getCrm(), consultations.get(0).getDoctor().getCrm());
+        assertEquals(response.get(0).getDoctorName(), consultations.get(0).getDoctor().getName());
+        assertEquals(response.get(0).getHospitalCnpj(), consultations.get(0).getHospital().getCnpj());
+        assertEquals(response.get(0).getHospitalName(), consultations.get(0).getHospital().getName());
+        assertEquals(response.get(0).getPatientCpf(), consultations.get(0).getPatient().getCpf());
+        assertEquals(response.get(0).getPatientName(), consultations.get(0).getPatient().getName());
+        assertEquals(response.get(0).getSymptoms(), consultations.get(0).getSymptoms());
+    }
+
+    @Test
+    public void getByCpfShouldReturnResponseEmptyWhenConsultationNotFound() {
+        List<GetConsultationResponse> response = consultationService.getByCpf(cpf);
+
+        assertTrue(response.isEmpty());
+    }
+
+    @Test
+    public void getByCnpjShouldReturnGetConsultationResponse() {
+        when(repository.findByHospitalCnpj(cnpj)).thenReturn(consultations);
+
+        List<GetConsultationResponse> response = consultationService.getByCnpj(cnpj);
+
+        verify(repository, times(1)).findByHospitalCnpj(cnpj);
+        assertEquals(response.get(0).getCrm(), consultations.get(0).getDoctor().getCrm());
+        assertEquals(response.get(0).getDoctorName(), consultations.get(0).getDoctor().getName());
+        assertEquals(response.get(0).getHospitalCnpj(), consultations.get(0).getHospital().getCnpj());
+        assertEquals(response.get(0).getHospitalName(), consultations.get(0).getHospital().getName());
+        assertEquals(response.get(0).getPatientCpf(), consultations.get(0).getPatient().getCpf());
+        assertEquals(response.get(0).getPatientName(), consultations.get(0).getPatient().getName());
+        assertEquals(response.get(0).getSymptoms(), consultations.get(0).getSymptoms());
+    }
+
+    @Test
+    public void getByCnpjShouldReturnResponseEmptyWhenConsultationNotFound() {
+        List<GetConsultationResponse> response = consultationService.getByCnpj(cpf);
 
         assertTrue(response.isEmpty());
     }

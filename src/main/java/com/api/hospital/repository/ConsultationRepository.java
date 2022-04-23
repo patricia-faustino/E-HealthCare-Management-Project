@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
     List<Consultation> findByDoctorCrm(String crm);
+
+    List<Consultation> findByPatientCpf(String cpf);
+
+    List<Consultation> findByHospitalCnpj(String cnpj);
 }

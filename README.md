@@ -21,7 +21,7 @@
 - [x] Deletar Paciente
 - [x] Cadastrar Consulta
 - [ ] Buscar Consulta por Cpf do Paciente
-- [ ] Buscar Consulta por CRM do Médico
+- [x] Buscar Consulta por CRM do Médico
 - [ ] Buscar Consulta por CNPJ do Hospital
 
 ### Tecnologias
