@@ -36,6 +36,20 @@ public class ConsultationService {
 
     public List<GetConsultationResponse> getByCrm(String crm) {
         List<Consultation> consultations = repository.findByDoctorCrm(crm);
+        return buildGetConsultationResponse(consultations);
+    }
+
+    public List<GetConsultationResponse> getByCpf(String cpf) {
+        List<Consultation> consultations = repository.findByPatientCpf(cpf);
+        return buildGetConsultationResponse(consultations);
+    }
+
+    public List<GetConsultationResponse> getByCnpj(String cnpj) {
+        List<Consultation> consultations = repository.findByHospitalCnpj(cnpj);
+        return buildGetConsultationResponse(consultations);
+    }
+
+    private List<GetConsultationResponse> buildGetConsultationResponse(List<Consultation> consultations) {
         List<GetConsultationResponse> responses = new ArrayList<>();
 
         if(consultations != null) {
