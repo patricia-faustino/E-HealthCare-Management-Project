@@ -20,9 +20,9 @@
 - [x] Alterar Nome do Paciente
 - [x] Deletar Paciente
 - [x] Cadastrar Consulta
-- [ ] Buscar Consulta por Cpf do Paciente
+- [x] Buscar Consulta por Cpf do Paciente
 - [x] Buscar Consulta por CRM do Médico
-- [ ] Buscar Consulta por CNPJ do Hospital
+- [x] Buscar Consulta por CNPJ do Hospital
 
 ### Tecnologias
 As seguintes ferramentas foram usadas na construção do projeto
