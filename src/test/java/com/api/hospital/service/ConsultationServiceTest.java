@@ -9,6 +9,7 @@ import com.api.hospital.model.entities.Doctor;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.entities.Patient;
 import com.api.hospital.model.request.SaveConsultationRequest;
+import com.api.hospital.model.response.GetConsultationResponse;
 import com.api.hospital.repository.ConsultationRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,7 +52,6 @@ public class ConsultationServiceTest {
     private final String cnpj = "85.086.201/0001-06";
     private final String crm = "1234567890";
 
-
     @Before
     public void before() {
         patient = PatientHelper.buildPatientActive();
@@ -70,5 +73,32 @@ public class ConsultationServiceTest {
         verify(doctorService, times(1)).findDoctorByCrm(crm);
         verify(hospitalService, times(1)).findByCnpj(cnpj);
         verify(repository, times(1)).save(consultation);
+    }
+
+    @Test
+    public void shouldGetByCrm() {
+        List<Consultation> consultations = new ArrayList<>();
+        consultations.add(consultation);
+        when(repository.findByDoctorCrm(crm)).thenReturn(consultations);
+
+        List<GetConsultationResponse> response = consultationService.getByCrm(crm);
+
+        verify(repository, times(1)).findByDoctorCrm(crm);
+        assertEquals(response.get(0).getCrm(), consultations.get(0).getDoctor().getCrm());
+        assertEquals(response.get(0).getDoctorName(), consultations.get(0).getDoctor().getName());
+        assertEquals(response.get(0).getHospitalCnpj(), consultations.get(0).getHospital().getCnpj());
+        assertEquals(response.get(0).getHospitalName(), consultations.get(0).getHospital().getName());
+        assertEquals(response.get(0).getPatientCpf(), consultations.get(0).getPatient().getCpf());
+        assertEquals(response.get(0).getPatientName(), consultations.get(0).getPatient().getName());
+        assertEquals(response.get(0).getSymptoms(), consultations.get(0).getSymptoms());
+    }
+
+    @Test
+    public void getByCrmShouldReturnEntityNotFoundWhenConsultationNotFound() {
+        when(repository.findByDoctorCrm(crm)).thenReturn(null);
+
+        List<GetConsultationResponse> response = consultationService.getByCrm(crm);
+
+        assertTrue(response.isEmpty());
     }
 }
