@@ -5,9 +5,13 @@ import com.api.hospital.model.entities.Doctor;
 import com.api.hospital.model.entities.Hospital;
 import com.api.hospital.model.entities.Patient;
 import com.api.hospital.model.request.SaveConsultationRequest;
+import com.api.hospital.model.response.GetConsultationResponse;
 import com.api.hospital.repository.ConsultationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +32,25 @@ public class ConsultationService {
         consultation.setPatient(patient);
         consultation.setSymptoms(request.getSymptoms());
         repository.save(consultation);
+    }
+
+    public List<GetConsultationResponse> getByCrm(String crm) {
+        List<Consultation> consultations = repository.findByDoctorCrm(crm);
+        List<GetConsultationResponse> responses = new ArrayList<>();
+
+        if(consultations != null) {
+            consultations.forEach(consultation -> { responses.add(
+                    GetConsultationResponse.builder()
+                            .crm(consultation.getDoctor().getCrm())
+                            .doctorName(consultation.getDoctor().getName())
+                            .hospitalCnpj(consultation.getHospital().getCnpj())
+                            .hospitalName(consultation.getHospital().getName())
+                            .patientCpf(consultation.getPatient().getCpf())
+                            .patientName(consultation.getPatient().getName())
+                            .symptoms(consultation.getSymptoms())
+                            .build());
+            });
+        }
+        return responses;
     }
 }
