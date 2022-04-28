@@ -23,6 +23,8 @@
 - [x] Buscar por Cpf do Paciente
 - [x] Buscar por CRM do Médico
 - [x] Buscar por CNPJ do Hospital
+- [ ] Login Médico
+- [ ] Login Paciente
 
 ### Tecnologias
 As seguintes ferramentas foram usadas na construção do projeto
