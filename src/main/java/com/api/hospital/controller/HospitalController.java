@@ -24,7 +24,7 @@ public class HospitalController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<List<GetHospitalsByNameResponse>> getHospitalsByName(@PathVariable String name) {
         return ResponseEntity.ok(service.findHospitalsByName(name));
     }
@@ -35,7 +35,7 @@ public class HospitalController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{cnpj}")
+    @DeleteMapping("/cnpj/{cnpj}")
     public ResponseEntity<Void> delete(@PathVariable String cnpj) {
         service.delete(cnpj);
         return ResponseEntity.ok().build();

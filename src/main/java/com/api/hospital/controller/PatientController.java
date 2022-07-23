@@ -29,13 +29,13 @@ public class PatientController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{cpf}")
+    @PutMapping("/cpf/{cpf}")
     public ResponseEntity<Void> delete(@PathVariable String cpf) {
         service.delete(cpf);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{cpf}")
+    @GetMapping("/cpf/{cpf}")
     public ResponseEntity<GetPatientByCpfResponse> getByCpf(@PathVariable String cpf) {
         return ResponseEntity.ok(service.getByCpf(cpf));
     }

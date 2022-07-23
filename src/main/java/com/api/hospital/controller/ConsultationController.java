@@ -23,17 +23,17 @@ public class ConsultationController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getByCrm/{crm}")
+    @GetMapping("/crm/{crm}")
     public ResponseEntity<List<GetConsultationResponse>> getByCrm(@PathVariable String crm) {
         return ResponseEntity.ok(service.getByCrm(crm));
     }
 
-    @GetMapping("/getByCpf/{cpf}")
+    @GetMapping("/cpf/{cpf}")
     public ResponseEntity<List<GetConsultationResponse>> getByCpf(@PathVariable String cpf) {
         return ResponseEntity.ok(service.getByCpf(cpf));
     }
 
-    @GetMapping("/getByCnpj/{cnpj}")
+    @GetMapping("/cnpj/{cnpj}")
     public ResponseEntity<List<GetConsultationResponse>> getByCnpj(@PathVariable String cnpj) {
         return ResponseEntity.ok(service.getByCnpj(cnpj));
     }
