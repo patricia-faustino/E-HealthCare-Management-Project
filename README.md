@@ -4,7 +4,7 @@
 <p>Api feita em Java, utilizando conceitos em SOLID, orientação a objetos e TDD.</p>
 <p>Projeto está sendo desenvolvido de acordo com o desafio da plataforma Simplilearn.</p>
 
-<h4 align="center">🚀 Em contrução... 🚧</h4>
+<h4 align="center">🚀 Em construção... 🚧</h4>
 
 ### Features
 - [x] Cadastrar Hospital
